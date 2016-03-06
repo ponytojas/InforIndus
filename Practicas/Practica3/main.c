@@ -1,30 +1,89 @@
     //************************************//
-   /* Práctica 3---EntradaSalida		     */
-  /*  Francisco Jesús Gimenez Hidalgo   */
- /*   Daniel Villalobos del Baño       */
+   /* PrÃ¡ctica 3---EntradaSalida		     */
+  /*  Francisco JesÃºs Gimenez Hidalgo   */
+ /*   Daniel Villalobos del BaÃ±o       */
 //************************************//
 
 #include <lpc17xx.h>
 
-/*DECLARACIÓN DE LAS CONSTANTES*/
-int valorBCD;																				//Valor del número codificado en BCD
-int valorBIN;																				//Valor del número codificado en BINARIO
+/*DECLARACIÃ“N DE LAS CONSTANTES*/
+int valorBCD;																				//Valor del nÃºmero codificado en BCD
+int valorBIN;																				//Valor del nÃºmero codificado en BINARIO
 
-/*DEFINICIÓN DE LAS CONSTANTES*/
+/*DEFINICIÃ“N DE LAS CONSTANTES*/
 #define NUM_MAX 65535
 
 /***********/
 /*FUNCIONES*/
 /***********/
+/*FunciÃ³n Auxiliar al Display*/
+int AuxDisplay (int a)
+{
+	int b = 0;
+	//16 casos
+	switch (a)
+	{
+		case 0: 
+			b = !(LPC_GPIO3->FIOPIN>>26);
+		break;
+		case 1: 
+			b = ! (LPC_GPIO1->FIOPIN>>19);
+		break;
+		case 2: 
+			b = ! (LPC_GPIO1->FIOPIN>>20);
+		break;
+		case 3: 
+			b = !(LPC_GPIO1->FIOPIN>>21);
+		break;
+		case 4: 
+			b = !(LPC_GPIO1->FIOPIN>>22);
+		break;
+		case 5: 
+			b = !(LPC_GPIO1->FIOPIN>>23);
+		break;
+		case 6: 
+			b = !(LPC_GPIO1->FIOPIN>>24);
+		break;
+		case 7: 
+			b = !(LPC_GPIO1->FIOPIN>>25);
+		break;
+		case 8: 
+			b = !(LPC_GPIO1->FIOPIN>>26);
+		break;
+		case 9: 
+			b = !(LPC_GPIO1->FIOPIN>>27);
+		break;
+		case 10: 
+			b = !(LPC_GPIO1->FIOPIN>>28);
+		break;
+		case 11: 
+			b = !(LPC_GPIO0->FIOPIN>>23);
+		break;
+		case 12: 
+			b = !(LPC_GPIO0->FIOPIN>>24);
+		break;
+		case 13: 
+			b = ! (LPC_GPIO0->FIOPIN>>25);
+		break;
+		case 14: 
+			b = !(LPC_GPIO0->FIOPIN>>26);
+		break;
+		case 15: 
+			b = !(LPC_GPIO1->FIOPIN>>31);
+		break;
+		}			
+	return b;
+}
 
-/*FUNCIÓN QUE CONTROLA EL DELAY*/
+
+/*FUNCIÃ“N QUE CONTROLA EL DELAY*/
 void delay(uint32_t n)															//Introducimos direcctamente el valor de los ms de retraso
 {  int32_t i;
 	n*=20000;
   for(i=0;i<n;i++);
 }
 
-/*CONFIGURACIÓN DE PUERTOS*/
+/*CONFIGURACIÃ“N DE PUERTOS*/
 void configurarPuertos(){
 	//Todos los puertos en modo GPIO
 	LPC_PINCON->PINSEL0 = 0x00000000;
@@ -51,7 +110,7 @@ void limpiarPuertos(){
 }
 
 
-/*EVALÚA SI ES PRIMO O NO*/
+/*EVALÃšA SI ES PRIMO O NO*/
 int getEsPrimo(int n){
 	int i, esPrimo = 1;
 	for (i=2;i<=n/2;i++){
@@ -68,18 +127,16 @@ int getEsPrimo(int n){
 
 /*PASAR LOS NUMEROS AL DISPLAY 7 SEG */
 
-void DisplayLooser() //Pues aquí va el muestreo del display de 7-seg//Es necesario ver los segmentos que se encienden para cada numero//
+void DisplayLooser() //Pues aquÃ­ va el muestreo del display de 7-seg//Es necesario ver los segmentos que se encienden para cada numero//
 { //Pines: a(P1.24) b(p0.17) c(p0.15) d(p0.16) e(p0.9) f(p0.8) g(p0.7)//
 	int CambiarDeCaso;
-	int Num;
+	int pos = 0;
 	do
 	{
 		LPC_GPIO0->FIOCLR = 0x00038380;
 		LPC_GPIO1->FIOCLR = 0x00200000;
-		CambiarDeCaso = ((LPC_GPIO0->FIOPIN & (Num>>31))>> 3);
-		//if (ElNumeroLeido==0 && todos los numeros anteriores fueron 0)
-		//break;
-
+		CambiarDeCaso = AuxDisplay(pos);
+		pos++;
 	switch (CambiarDeCaso)
 	{
 		case 0:
@@ -150,17 +207,17 @@ void DisplayLooser() //Pues aquí va el muestreo del display de 7-seg//Es necesar
 		delay (400);
 		break;
 	}
-}while (1);
+}while (pos != 15);
 	}
 
 
-/*OBTENCIÓN DEL VALOR INICIAL*/
+/*OBTENCIÃ“N DEL VALOR INICIAL*/
 int getValorInicial(){
 	//TODO Leer puertos para conseguir los valores y meterlos en HEX
 	int valorInicial = 0;
 	//El primer pin corresponde con 1
 	valorInicial = !(((LPC_GPIO1->FIOPIN>>31) & 0x01));
-	//El segundo con 2 y así sucesivamente en potencias de 2, por lo que iremos multiplicando por 2 sucesivamente
+	//El segundo con 2 y asÃ­ sucesivamente en potencias de 2, por lo que iremos multiplicando por 2 sucesivamente
 	valorInicial = (valorInicial<<1) + !(((LPC_GPIO0->FIOPIN>>26) & 0x01));
 	valorInicial = (valorInicial<<1) + !(((LPC_GPIO0->FIOPIN>>25) & 0x01));
 	valorInicial = (valorInicial<<1) + !(((LPC_GPIO0->FIOPIN>>24) & 0x01));
@@ -197,7 +254,7 @@ int getValorInicial(){
 void EncenderLedTonto ()
 {
 	//P1.29
-	//Si se cumple condición y hay que encender
+	//Si se cumple condiciÃ³n y hay que encender
 	LPC_GPIO1->FIOPIN |= (1<<29);
 }
 
@@ -238,13 +295,13 @@ void setNumeroBinario(int n){
 	LPC_GPIO0->FIOPIN |= (estado<<19);
 }
 
-/*MUESTRA EL NÚMERO BCD A TRAVÉS DE LOS LEDS*/
+/*MUESTRA EL NÃšMERO BCD A TRAVÃ‰S DE LOS LEDS*/
 void setNumeroBCD(int n){
 	int resultado = 0;
 	int i=0;
 	int estado = 0;
 	
-	//Convierto el número a BCD
+	//Convierto el nÃºmero a BCD
 	for(i=1;i<=8;i++){
 		resultado<<=4;
 		resultado|=(n%10);
@@ -293,19 +350,19 @@ void setNumeroBCD(int n){
 	LPC_GPIO0->FIOPIN |= (estado<<22);
 }
 
-/*FUNCIÓN PRINCIPAL*/
+/*FUNCIÃ“N PRINCIPAL*/
 int main(){
 	int i = 0, valor = 0, parpadeoLED = 0, ledTonto;
 	static int primo = 0;
 	
-	//Llamadas a funciones de inicialización
+	//Llamadas a funciones de inicializaciÃ³n
 	configurarPuertos();
 	limpiarPuertos();
 	
 	while(1){
 		
 		valor = getValorInicial();															//Leo valor inicial y lo guardo
-		for(i=valor;i<=NUM_MAX;i++){														//Incrementamos el número desde el valor inicial al máximo
+		for(i=valor;i<=NUM_MAX;i++){														//Incrementamos el nÃºmero desde el valor inicial al mÃ¡ximo
 			
 			while(!getEsPrimo(i) && i<=NUM_MAX)
 				i++;
