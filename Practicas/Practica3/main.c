@@ -16,64 +16,6 @@ int valorBIN;																				//Valor del número codificado en BINARIO
 /***********/
 /*FUNCIONES*/
 /***********/
-/*Función Auxiliar al Display*/
-int AuxDisplay (int a)
-{
-	int b = 0;
-	//16 casos
-	switch (a)
-	{
-		case 0: 
-			b = !(LPC_GPIO3->FIOPIN>>26);
-		break;
-		case 1: 
-			b = ! (LPC_GPIO1->FIOPIN>>19);
-		break;
-		case 2: 
-			b = ! (LPC_GPIO1->FIOPIN>>20);
-		break;
-		case 3: 
-			b = !(LPC_GPIO1->FIOPIN>>21);
-		break;
-		case 4: 
-			b = !(LPC_GPIO1->FIOPIN>>22);
-		break;
-		case 5: 
-			b = !(LPC_GPIO1->FIOPIN>>23);
-		break;
-		case 6: 
-			b = !(LPC_GPIO1->FIOPIN>>24);
-		break;
-		case 7: 
-			b = !(LPC_GPIO1->FIOPIN>>25);
-		break;
-		case 8: 
-			b = !(LPC_GPIO1->FIOPIN>>26);
-		break;
-		case 9: 
-			b = !(LPC_GPIO1->FIOPIN>>27);
-		break;
-		case 10: 
-			b = !(LPC_GPIO1->FIOPIN>>28);
-		break;
-		case 11: 
-			b = !(LPC_GPIO0->FIOPIN>>23);
-		break;
-		case 12: 
-			b = !(LPC_GPIO0->FIOPIN>>24);
-		break;
-		case 13: 
-			b = ! (LPC_GPIO0->FIOPIN>>25);
-		break;
-		case 14: 
-			b = !(LPC_GPIO0->FIOPIN>>26);
-		break;
-		case 15: 
-			b = !(LPC_GPIO1->FIOPIN>>31);
-		break;
-		}			
-	return b;
-}
 
 
 /*FUNCIÓN QUE CONTROLA EL DELAY*/
