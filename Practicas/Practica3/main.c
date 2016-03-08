@@ -82,7 +82,7 @@ void setDisplayLooser(int n){
 //Pines: a(P1.24) b(p0.17) c(p0.15) d(p0.16) e(p0.9) f(p0.8) g(p0.7)//
   LPC_GPIO0->FIOCLR = 0x00038380;
   LPC_GPIO1->FIOCLR = 0x00200000;
-  pos++;
+  //pos++;  Falta la parte donde se va dividiendo los números en partes que hice
   switch (n){
     case 0:
     //El 0//a + b + c + d + e + f
@@ -286,7 +286,7 @@ int main(){
         setNumeroBCD(i);
       }
 
-      ledEncendido = 0
+      ledEncendido = 0;
       ledTonto = i;
 
       for(tiempoTranscurrido=0;tiempoTranscurrido<40000000;tiempoTranscurrido++);{
@@ -297,7 +297,7 @@ int main(){
           }
           else{
             LPC_GPIO1->FIOPIN &= ~(1<<18);  //Apagamos LED
-            ledEncendido = 0
+            ledEncendido = 0;
           }
 
           if(ledTonto & 0x01)
@@ -305,14 +305,14 @@ int main(){
           else
             LPC_GPIO1->FIOPIN &= ~(1<<29);  //Encendemos LED
 
-          ledtonto>>=1;
+          ledTonto>>=1;
         }
         if((tiempoTranscurrido/20000)%400 == 0){
           setDisplayLooser((getBinToBCD(i)<<pos) & 0x0F0000000);
           pos++;
         }
       }
-      pos = 0
+      pos = 0;
       limpiarPuertos();
     }
     limpiarPuertos();
