@@ -309,7 +309,7 @@ int main(){
         }
         if((tiempoTranscurrido/20000)%400 == 0){
           setDisplayLooser((getBinToBCD(i)<<pos) & 0x0F0000000);
-          pos++;
+          pos+=4;
         }
       }
       pos = 0;
