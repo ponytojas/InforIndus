@@ -1,5 +1,5 @@
     //************************************//
-   /* Práctica 3---EntradaSalida		     */
+   /* Práctica 3---EntradaSalida		 */
   /*  Francisco Jesús Gimenez Hidalgo   */
  /*   Daniel Villalobos del Baño       */
 //************************************//
@@ -29,6 +29,10 @@ void delay(uint32_t n){															//Introducimos direcctamente el valor de l
 int getBinToBCD(int n){
   int i, resultado = 0;
   for(i=1;i<=8;i++){
+      if (n == 0)
+      {
+          break;
+      }
     resultado<<=4;
     resultado|=(n%10);
     n/=10;
