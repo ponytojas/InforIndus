@@ -1,7 +1,7 @@
-//************************************//
-/* Práctica 3---EntradaSalida		     */
-/*  Francisco Jesús Gimenez Hidalgo   */
-/*   Daniel Villalobos del Baño       */
+    //************************************//
+   /* Práctica 3---EntradaSalida		     */
+  /*  Francisco Jesús Gimenez Hidalgo   */
+ /*   Daniel Villalobos del Baño       */
 //************************************//
 
 #include <lpc17xx.h>
