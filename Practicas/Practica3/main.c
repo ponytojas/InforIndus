@@ -262,7 +262,7 @@ void setNumeroBCD(int n){
 /*FUNCIÓN PRINCIPAL*/
 int main(){
   int i = 0, valor = 0, parpadeoLED = 0, ledTonto, ledEncendido, pos = 0;
-  int32_t msTranscurridos;
+  int32_t tiempoTranscurrido;
 
   //Llamadas a funciones de inicialización
   configurarPuertos();
@@ -289,8 +289,8 @@ int main(){
       ledEncendido = 0
       ledTonto = i;
 
-      for(msTranscurridos=0;msTranscurridos<40000000;msTranscurridos++);{
-        if((msTranscurridos/20000)%250 == 0){
+      for(tiempoTranscurrido=0;tiempoTranscurrido<40000000;tiempoTranscurrido++);{
+        if((tiempoTranscurrido/20000)%250 == 0){
           if(ledEncendido == 0){
             LPC_GPIO1->FIOPIN |= (1<<18);  //Encendemos LED
             ledEncendido = 1;
@@ -307,7 +307,7 @@ int main(){
 
           ledtonto>>=1;
         }
-        if((msTranscurridos/20000)%400 == 0){
+        if((tiempoTranscurrido/20000)%400 == 0){
           setDisplayLooser((getBinToBCD(i)<<pos) & 0x0F0000000);
           pos++;
         }
