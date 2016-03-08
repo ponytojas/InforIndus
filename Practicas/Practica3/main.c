@@ -211,8 +211,8 @@ void setNumeroBinario(int n){
 
 /*MUESTRA EL NÚMERO BCD A TRAVÉS DE LOS LEDS*/
 void setNumeroBCD(int n){
-  int resultado = 0;
-  int i=0;
+  //int resultado = 0;
+  //int i=0;
   int estado = 0;
 
   //Convierto el número a BCD
@@ -261,7 +261,7 @@ void setNumeroBCD(int n){
 
 /*FUNCIÓN PRINCIPAL*/
 int main(){
-  int i = 0, valor = 0, parpadeoLED = 0, ledTonto, ledEncendido, pos = 0;
+  int i = 0, valor = 0 /*, parpadeoLED = 0*/, ledTonto, ledEncendido, pos = 0;
   int32_t tiempoTranscurrido;
 
   //Llamadas a funciones de inicialización
