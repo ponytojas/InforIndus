@@ -289,7 +289,7 @@ int main(){
       ledEncendido = 0;
       ledTonto = i;
 
-      for(tiempoTranscurrido=0;tiempoTranscurrido<40000000;tiempoTranscurrido++);{
+      for(tiempoTranscurrido=0;tiempoTranscurrido<40000000;tiempoTranscurrido++){
         if((tiempoTranscurrido/20000)%250 == 0){
           if(ledEncendido == 0){
             LPC_GPIO1->FIOPIN |= (1<<18);  //Encendemos LED
